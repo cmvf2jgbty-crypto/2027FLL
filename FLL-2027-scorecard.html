@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FLL 2026-2027 BIOGLOW 场地赛计分表</title><style>
+        :root {
+            --bg-light: #F5F1E7;
+            --bg-white: #F5F1E7;
+            --bg-soft: #D8D6C8;
+            --border-gray: #91AD78;
+            --text-dark: #354C3D;
+            --text-medium: #536858;
+            --text-light: #91AD78;
+            --accent-dark: #354C3D;
+            --accent-medium: #91ad78;
+            --accent-blue: #354C3D;
+            --shadow: rgba(53, 76, 61, 0.16);
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; }
+        
+        body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            padding: 20px 20px 84px;
+            background-image:
+                radial-gradient(rgba(53, 76, 61, 0.09) 1px, transparent 1px),
+                linear-gradient(135deg, #F5F1E7 0%, #D8D6C8 52%, #D8D6C8 100%);
+            background-size: 20px 20px, 100% 100%;
+            background-attachment: fixed;
+        }
+
+        /* 底部悬浮署名条 */
+        .designer-credit {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            z-index: 1000;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: calc(100vw - 32px);
+            padding: 10px 18px;
+            border: 1px solid rgba(145, 173, 120, 0.45);
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(53, 76, 61, 0.96), rgba(83, 104, 88, 0.96));
+            color: #F5F1E7;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            text-align: center;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .designer-credit {
+                bottom: 12px;
+                padding: 9px 14px;
+                font-size: 0.78rem;
+                white-space: normal;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow);
+            overflow: hidden;
+            border: 2px solid #91AD78;
+        }
+
+        header {
+            background: linear-gradient(135deg, #354C3D 0%, #536858 54%, #91AD78 100%);
+            color: #F5F1E7;
+            padding: 20px 25px;
+            text-align: center;
+            border-bottom: 5px solid #E59A54;
+        }
+
+        .header-inner {
+            display: grid;
+            grid-template-columns: 132px 1fr 132px;
+            align-items: center;
+            gap: 22px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .team-logo {
+            width: 124px;
+            height: 124px;
+            display: block;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #E59A54;
+            background: #F5F1E7;
+            box-shadow: 0 8px 22px rgba(43, 23, 8, 0.38);
+        }
+
+        .header-spacer { width: 132px; }
+        .header-copy { min-width: 0; }
+
+        @media (max-width: 700px) {
+            .header-inner { grid-template-columns: 1fr; gap: 14px; }
+            .team-logo { width: 104px; height: 104px; margin: 0 auto; }
+            .header-spacer { display: none; }
+        }
+
+        h1 { margin: 0; font-size: 2.2em; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(48, 22, 5, 0.4); }
+        .subtitle { color: #F5F1E7; margin-top: 8px; font-style: italic; font-size: 1.1em; }
+
+        .content { padding: 25px; }
+
+        /* 顶部区域：计时器 + 检录 */
+        .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .top-section { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: #F5F1E7;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid var(--accent-dark);
+            border: 1px solid var(--border-gray);
+        }
+
+        .card h3 { margin-top: 0; color: var(--accent-dark); border-bottom: 2px solid #D8D6C8; padding-bottom: 10px; }
+
+        /* 计时器样式 */
+        .timer-container { text-align: center; }
+        #clock {
+            font-size: 4em;
+            font-weight: bold;
+            color: var(--accent-dark);
+            text-shadow: 2px 2px 4px var(--shadow);
+            margin: 10px 0;
+        }
+        .timer-controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+        .timer-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--accent-dark);
+            background: #F5F1E7;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: var(--accent-dark);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-btn:hover { background: var(--accent-dark); color: white; transform: scale(1.1); }
+
+        /* 器材检录 */
+        .inspection-card { border-left-color: var(--accent-medium); background: var(--bg-soft); }
+        .inspection-list { list-style: none; padding: 0; }
+        .inspection-list li { margin: 10px 0; display: flex; align-items: center; }
+        .inspection-list input { width: 18px; height: 18px; margin-right: 10px; accent-color: var(--accent-dark); }
+
+        /* 任务网格 */
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .mission-card {
+            background: #F5F1E7;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: 0.3s;
+        }
+
+        .mission-card:hover { border-color: var(--accent-dark); transform: translateY(-2px); }
+        .mission-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .mission-id { font-weight: bold; color: var(--accent-dark); }
+        .mission-max { background: var(--accent-dark); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.9em; }
+        .mission-rules { font-size: 0.85em; color: var(--text-medium); margin: 8px 0 12px; line-height: 1.4; }
+        
+        /* 按钮计分样式 - 小圆形 */
+        .score-buttons { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            margin-top: 10px; 
+        }
+        .score-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border-gray);
+            background: #F5F1E7;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .score-btn:hover { border-color: var(--accent-dark); }
+        .score-btn.selected {
+            background: var(--accent-dark);
+            color: white;
+            border-color: var(--accent-dark);
+        }
+        .current-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--accent-dark);
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        /* 精准度奖励 - 小圆形 */
+        .bonus-section {
+            background: var(--bg-soft);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-medium);
+            margin: 25px 0;
+            border: 1px solid var(--border-gray);
+        }
+        .bonus-options { 
+            display: flex; 
+            flex-wrap: wrap;
+            gap: 15px; 
+            margin-top: 15px; 
+        }
+        .bonus-option { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .bonus-option input[type="radio"] {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border-gray);
+            background: #F5F1E7;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .bonus-option input[type="radio"]:checked {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+        }
+        .bonus-option input[type="radio"]:hover {
+            border-color: var(--accent-dark);
+        }
+        .bonus-option label {
+            font-size: 0.9em;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* 总分区域 */
+        .total-section {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #354C3D 0%, #536858 62%, #354C3D 100%);
+            color: #F5F1E7;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #total { font-size: 4em; font-weight: bold; margin: 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .score-breakdown { display: flex; justify-content: center; gap: 30px; margin: 15px 0; flex-wrap: wrap; }
+        
+        .buttons { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .action-btn { 
+            padding: 10px 20px; 
+            border: 2px solid var(--accent-dark); 
+            background: #F5F1E7; 
+            color: var(--accent-dark); 
+            border-radius: 20px; 
+            font-size: 1em; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+        .action-btn:hover { background: var(--accent-dark); color: white; transform: scale(1.05); }
+    
+        .team-logo.logo-placeholder{display:flex;align-items:center;justify-content:center;line-height:1.6;color:var(--accent-dark);font-size:22px;font-weight:700;white-space:pre-line}
+        .mission-field{margin:12px 0}.field-caption{font-size:.8em;color:var(--text-medium);line-height:1.4}.mission-field .score-buttons{margin-top:6px}
+        .score-btn.choice-btn{min-width:28px;width:auto;padding:0 5px}.score-btn[aria-pressed=true]{background:var(--accent-dark);color:var(--bg-white);border-color:var(--accent-dark)}
+        .score-btn:disabled,input:disabled{cursor:default;opacity:.7}.score-btn:focus-visible,.action-btn:focus-visible,.timer-btn:focus-visible{outline:3px solid var(--accent-medium);outline-offset:3px}
+        .tiny{font-size:.85em;line-height:1.6;color:var(--text-medium)}.total-section .tiny{color:var(--bg-white)}
+        .tools{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.tools button,.tools select{font:inherit;padding:7px 12px;border:1px solid var(--accent-dark);border-radius:8px;background:var(--bg-white);color:var(--text-dark);cursor:pointer}
+        .void{display:flex;gap:6px;font-size:.78em;line-height:1.5;color:var(--text-medium);margin-top:9px}.void input{accent-color:var(--accent-dark)}
+        .sync-section{margin-top:25px}.sync-section>summary{cursor:pointer;font-weight:700;color:var(--accent-dark)}.sync-section .card{margin-top:15px}
+        .history-table{width:100%;border-collapse:collapse;text-align:left}.history-table th,.history-table td{padding:8px;border-bottom:1px solid var(--border-gray)}
+        #binding-code{width:100%;min-height:100px;margin:10px 0}#binding-help p{font-size:.9em;line-height:1.7}
+        .history-help{font-size:.85em;line-height:1.6;margin-top:12px;color:var(--text-medium)}
+        dialog{margin:auto;max-width:min(420px,calc(100vw - 32px));padding:25px;border:2px solid var(--accent-dark);border-radius:12px;background:var(--bg-white);color:var(--text-dark)}dialog p{line-height:1.6;margin-top:12px}dialog::backdrop{background:#354c3d88}
+        a{color:var(--accent-dark)}.timer-done{color:var(--accent-medium)!important}.score-breakdown span{white-space:nowrap}button,input{accent-color:var(--accent-dark)}
+        @media(max-width:480px){body{padding:10px 10px 84px}.content{padding:15px}h1{font-size:1.6em}.score-breakdown{gap:12px}.bonus-options{gap:12px}.bonus-option label{font-size:.82em}}
+</style></head><body>
+<div class="container"><header><div class="header-inner">
+<div class="team-logo logo-placeholder" role="img" aria-label="朝花夕拾队">朝花<br>夕拾</div>
+<div class="header-copy"><h1>🌿 FLL 2026-2027 场地赛计分表</h1><p class="subtitle">BIOGLOW · 生命脉动（朝花夕拾队）</p></div><div class="header-spacer" aria-hidden="true"></div>
+</div></header>
+<div class="content">
+<div class="top-section">
+<div class="card timer-container"><h3>⏱️ 比赛计时器（2分30秒）</h3><div id="clock" role="timer">02:30</div><div class="timer-controls">
+<button class="timer-btn" id="start" aria-label="开始计时">▶</button><button class="timer-btn" id="pause" aria-label="暂停计时">Ⅱ</button><button class="timer-btn" id="timerreset" aria-label="重置计时">↻</button>
+</div></div>
+<div class="card inspection-card"><h3>🔧 器材检录（20分）</h3><p style="font-size:.9em;color:var(--text-medium);margin:15px 0">规则：机器人和所有器材完全放入一个发射区，高度不超过305毫米。</p><ul class="inspection-list"><li><input type="checkbox" id="f0" checked><label for="f0">✅ 器材检录合格</label></li></ul></div>
+</div>
+<h3 style="color:var(--accent-dark);margin:25px 0 15px">🎯 场地任务计分（点击小圆点得分）</h3><div class="missions-grid" id="cards"></div>
+<div class="bonus-section"><h3 style="color:var(--accent-dark)">🎖️ 精准度奖励（按剩余标记数）</h3><div class="bonus-options" id="precision-options"></div></div>
+<div class="total-section"><h2>🏆 当前总分</h2><div id="total">70</div><p id="scorestate">正在加载计分引擎</p><div class="score-breakdown"><span>任务总分：<strong id="missionScore">0</strong></span><span>器材检录：<strong id="inspectScore">20</strong></span><span>精准奖励：<strong id="bonusScore">50</strong></span><span>理论满分：530分</span></div>
+<div class="buttons"><button class="action-btn" id="clear">🔄 重置全部</button><button class="action-btn" id="csv">📋 导出数据</button><button class="action-btn" id="submit">保存本场成绩</button><button class="action-btn" id="history-export">导出7天成绩</button></div>
+<p class="tiny" id="storage" role="status" aria-live="polite"></p><p class="tiny" style="margin-top:12px">初始70分：器材检录20分 + 精准度50分；所有场地任务从零开始。</p>
+</div>
+<details class="sync-section"><summary>主机同步、7天成绩与备份</summary>
+<section class="card"><h3>主机连接</h3><p class="history-help">主机联网后可异地查看分数；网页也可单独计分。无线查看期间以主机为准，网页只读。</p>
+<div id="cloud-controls" hidden><div class="tools"><button id="cloud-view">查看无线主机</button><button id="web-mode">网页独立计分</button><select id="cloud-device" aria-label="选择主机"></select></div><div class="tools"><button id="bind-device">生成主机配置</button><button id="revoke-device">解除所选主机绑定</button></div>
+<div id="binding-help" hidden><p>① 复制下方配置。② 主机长按OK打开功能菜单，进入“无线联网”，按OK开启配网。③ 手机连接主机屏幕所示热点，用屏幕密码连接，浏览器打开 http://192.168.4.1，填写可上网的2.4 GHz Wi-Fi名称和密码，粘贴配置并保存。④ 主机显示“云端已同步”后，长按OK退出配网，手机切回正常网络，再点“查看无线主机”。失败或换网时重开配网页填写；不支持5 GHz或网页认证网络。</p><textarea id="binding-code" readonly aria-label="主机私密配置" spellcheck="false"></textarea></div><p id="cloud-status" role="status"></p></div>
+<details style="margin-top:12px"><summary>可选USB连接</summary><div class="tools"><button id="connect">连接主机</button><button id="disconnect" disabled>断开连接</button></div></details><p class="history-help" id="connection" role="status">未连接 · 可独立计分</p></section>
+<section class="card"><h3>最近7天成绩</h3><p id="history-summary" style="margin:12px 0"></p><p class="tiny" id="history-status" role="status"></p><div style="overflow:auto"><table class="history-table"><thead><tr><th>记录时间</th><th>来源</th><th>总分</th></tr></thead><tbody id="history"></tbody></table></div><p class="history-help">仅统计已确认成绩。云端按首次接收时间保留168小时，可跨设备查看；离线网页仅保存在当前浏览器。主机断网最多暂存8条待传成绩，联网后补传，满后须先联网。</p></section>
+<section class="card"><h3>备份</h3><div class="tools"><button id="export">导出JSON备份</button><button id="import">导入JSON备份</button></div><input id="file" type="file" accept=".json" hidden></section>
+</details>
+<p class="history-help">本工具用于训练核算，官方裁判裁定优先。任务中文名为说明性翻译；规则核对：2026-10-14。<a href="https://firstinspires.blob.core.windows.net/fll/challenge/2026-27/fll-challenge-bioglow-rgr.pdf" target="_blank" rel="noopener">官方规则书</a> · <a href="https://firstinspires.blob.core.windows.net/fll/challenge/2026-27/fll-challenge-bioglow-updates.pdf" target="_blank" rel="noopener">赛季更新</a></p>
+</div></div>
+<dialog id="dialog"><h2 id="dialogtitle"></h2><p id="dialogtext"></p><div class="buttons"><button id="cancel" class="action-btn">取消</button><button id="accept" class="action-btn">确认</button></div></dialog>
+<div class="designer-credit" role="note" aria-label="设计者署名">Designed by ZixuanWang From 朝花夕拾</div>
+<script>'use strict';
+const schema={"fields": [{"label": "单区内且高度合格", "max": 1, "choices": ["否", "是"]}, {"label": "剩余精准标记", "max": 6, "choices": null}, {"label": "无人机离开场地垫", "max": 1, "choices": ["否", "是"]}, {"label": "地图翻转且标记入区", "max": 1, "choices": ["否", "是"]}, {"label": "脱离茎秆的种子", "max": 3, "choices": null}, {"label": "研究旗已落下", "max": 1, "choices": ["否", "是"]}, {"label": "岩石回到起始位置", "max": 1, "choices": ["否", "是"]}, {"label": "脱离巢穴的叶片", "max": 2, "choices": null}, {"label": "螽斯仍部分在栖息地", "max": 1, "choices": ["否", "是"]}, {"label": "原位且全程未完全离区", "max": 1, "choices": ["否", "是"]}, {"label": "根系伸展状态", "max": 2, "choices": ["未伸展", "部分", "完全"]}, {"label": "蚂蚁接触巢穴", "max": 1, "choices": ["否", "是"]}, {"label": "巢穴内的叶片碎片", "max": 4, "choices": null}, {"label": "菌丝完全伸展", "max": 1, "choices": ["否", "是"]}, {"label": "与对方根系连接数", "max": 2, "choices": null}, {"label": "藤蔓接触场地垫", "max": 1, "choices": ["否", "是"]}, {"label": "研究平台已升起", "max": 1, "choices": ["否", "是"]}, {"label": "相机陷阱已部署", "max": 1, "choices": ["否", "是"]}, {"label": "种子脱离树木", "max": 1, "choices": ["否", "是"]}, {"label": "蜘蛛栖息地保持原位", "max": 1, "choices": ["否", "是"]}, {"label": "蜗牛栖息地保持原位", "max": 1, "choices": ["否", "是"]}, {"label": "根系盖板落下触垫", "max": 1, "choices": ["否", "是"]}, {"label": "支撑杆升起接触树木", "max": 1, "choices": ["否", "是"]}, {"label": "支撑带环绕立柱", "max": 1, "choices": ["否", "是"]}, {"label": "关键物种就位且树升起", "max": 1, "choices": ["否", "是"]}, {"label": "种植站内的种子", "max": 4, "choices": null}, {"label": "其中接触场地垫的种子", "max": 4, "choices": null}, {"label": "筑巢顶棚已升起", "max": 1, "choices": ["否", "是"]}, {"label": "花园天窗完全推入", "max": 1, "choices": ["否", "是"]}, {"label": "堆肥舱门全开触垫", "max": 1, "choices": ["否", "是"]}, {"label": "建筑所在底座", "max": 2, "choices": ["矿区", "城市", "农场"]}, {"label": "旧记录兼容字段", "max": 4, "choices": null}, {"label": "M01 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M02 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M03 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M04 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M05 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M06 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M07 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M08 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M09 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M10 蜘蛛判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M10 蜗牛判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M11 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M12 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M13 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M14 本项判定无效", "max": 1, "choices": ["否", "是"]}, {"label": "M15 本项判定无效", "max": 1, "choices": ["否", "是"]}], "missions": [{"name": "赛前检查", "hint": "全部设备放入一个发射区，高度不超过305毫米。", "first": 0, "count": 1}, {"name": "精准标记", "hint": "按剩余数量计分，五枚与六枚均为50分。", "first": 1, "count": 1}, {"name": "M01 无人机勘测", "hint": "附加分需要无人机先得分。", "first": 2, "count": 2}, {"name": "M02 爆裂种子", "hint": "每颗脱离茎秆的种子10分。", "first": 4, "count": 1}, {"name": "M03 翻动岩石", "hint": "研究旗落下后，岩石复位再加10分。", "first": 5, "count": 2}, {"name": "M04 幸运叶片", "hint": "一片10分；两片且满足螽斯条件共30分。离区后返回仍无附加分。", "first": 7, "count": 3}, {"name": "M05 延伸根系", "hint": "部分10分，完全20分，不叠加。", "first": 10, "count": 1}, {"name": "M06 切叶蚁", "hint": "蚂蚁触巢才计碎片分，每片10分。", "first": 11, "count": 2}, {"name": "M07 巨大真菌", "hint": "菌丝完全伸展20分，每个合格连接加10分；无对手不计连接。", "first": 13, "count": 2}, {"name": "M08 解开藤蔓", "hint": "藤蔓接触场地垫得30分。", "first": 15, "count": 1}, {"name": "M09 研究平台", "hint": "平台、相机、种子各10分。", "first": 16, "count": 3}, {"name": "M10 脆弱栖息地", "hint": "蜘蛛与蜗牛栖息地各自保持原位，各10分。", "first": 19, "count": 2}, {"name": "M11 过去之窗", "hint": "根系盖板落下并接触场地垫得20分。", "first": 21, "count": 1}, {"name": "M12 森林长者", "hint": "支撑杆20分，支撑带10分。", "first": 22, "count": 2}, {"name": "M13 关键物种", "hint": "自建关键物种位于恢复平台且幼树升起得30分。", "first": 24, "count": 1}, {"name": "M14 更新之种", "hint": "站内每颗5分，其中触垫每颗再加5分。", "first": 25, "count": 2}, {"name": "M15 生态建筑", "hint": "三个动作各10分；底座对应动作再加10分。", "first": 27, "count": 4}]}, wasm='AGFzbQEAAAABLglgAABgAX8AYAN/f38Bf2ACf38Bf2ABfwF/YAJ/fgF/YAJ/fgBgAn9/AGAAAX8DHBsAAQECAwMEAQUGBwICAgIABAMIBAgAAAgICAQFAwEAAgZWDX8BQYCABAt/AEGgkgQLfwBB4JYEC38AQYCABAt/AEHDmgQLfwBBAAt/AEGAgAQLfwBBgIAEC38AQdCaBAt/AEGAgAgLfwBBAAt/AEEBC38AQYCABAsHtgQpBm1lbW9yeQIAEV9fd2FzbV9jYWxsX2N0b3JzAAAPX19zdGFja19wb2ludGVyAwAPZmxsX2NsZWFyX3JvdW5kAAEGbWVtc2V0AA0IZmxsX2luaXQAAgdmbGxfc2V0AAMKZmxsX2ZpZWxkcwMBCWZsbF9jeWNsZQAECWZsbF9zY29yZQAFCWZsbF90b3RhbAAGD2ZsbF90aW1lcl9yZXNldAAHEWZsbF90aW1lcl9zZWNvbmRzAAgQZmxsX3RpbWVyX3RvZ2dsZQAJCmZsbF9lbmNvZGUACgZtZW1jcHkADApmbGxfZGVjb2RlAAsGbWVtY21wAA4MZmxsX21pc3Npb25zAwIJcmVzZXRfYWxsAA8JdmFsdWVfZ2V0ABAJdmFsdWVfc2V0ABEJdG90YWxfZ2V0ABIJc2NvcmVfZ2V0ABMJc3VibWl0dGVkABQGc3VibWl0ABULY2xlYXJfcm91bmQAFgpyZWNvcmRfZ2V0ABcLcmVjb3JkX3NpemUAGA9yZWNvcmRfY2FwYWNpdHkAGQdyZXN0b3JlABoMX19kc29faGFuZGxlAwMKX19kYXRhX2VuZAMEC19fc3RhY2tfbG93AwUMX19zdGFja19oaWdoAwYNX19nbG9iYWxfYmFzZQMHC19faGVhcF9iYXNlAwgKX19oZWFwX2VuZAMJDV9fbWVtb3J5X2Jhc2UDCgxfX3RhYmxlX2Jhc2UDCxVfX3dhc21fZmlyc3RfcGFnZV9lbmQDDAqzFxsCAAseACAAQQBBMRCNgICAABogAEEBOgAIIABBgQw7AAALKwAgAEEAQTEQjYCAgAAaIABBAEExEI2AgIAAGiAAQQE6AAggAEGBDDsAAAuTAQEBf0EAIQMCQCABQS9LDQAgAkEASA0AAkAgAiABQQxsLQCkkoSAAE0NAEEADwsCQCABQR9HDQBBACEDIAJBAUYNAQsgACABaiACOgAAAkACQAJAIAFBZ2oOAgABAgsgAiAALQAaTw0BIAAgAjoAGgwBCyACIAAtABlNDQAgACACOgAZCyAAQQA6ADBBASEDCyADC6IBAQR/QQAhAgJAIAFBL0sNACABQQFGDQAgAUEfRg0AIAAgAWoiAy0AAEEBaiABQQxsLQCkkoSAACIEQQFqcCIFIARLDQACQCABQR9HDQAgBUEBRg0BCyADIAU6AAACQAJAAkAgAUFnag4CAAECCyAFIAAtABpPDQEgACAFOgAaDAELIAUgAC0AGU0NACAAIAU6ABkLIABBADoAMEEBIQILIAIL8QMBAn9BACECAkAgAUEQSw0AAkACQAJAAkACQAJAAkACQAJAAkACQAJAAkACQAJAAkACQAJAIAEODAECAAAAAAAAAAAADAALIAAgAUHKmISAAGotAABqLQAADREgAUF+ag4PAgMEBQYHCAkKCwwNDg8QAgsgAC0AAEEUbA8LIAAtAAEiAUEGSw0PIAFBAnQoArCYhIAADwsgAC0AAkUNDiAALQADQQpsQRRqDwsgAC0ABEEKbA8LIAAtAAVFDQwgAC0ABkEKbEEUag8LIAAtAAhFDQsCQAJAIAAtAAciAg4DDQEAAQtBHkEKIAAtAAkbDwtBCg8LIAAtAApBCmwPCyAALQALRQ0JIAAtAAxBCmwPCyAALQANRQ0IIAAtAA5BCmxBFGoPCyAALQAPQR5sDwsgAC0AESAALQAQaiAALQASakEKbA8LQQAgAC0AFCAALQAqG0H/AXFBACAALQATIAAtACkbQf8BcWpBCmwPCyAALQAVQRRsDwsgAC0AF0EKbCAALQAWQRRsag8LIAAtABhBHmwPCyAALQAaIgIgAC0AGSIBIAIgAUkbIAFqQQVsDwsgAC0AHCAALQAbaiAALQAdakEKbCECQQAhAQJAIAAtAB4iA0ECSw0AIAAgA2otABtBCmwhAQsgASACaiECCyACC/4BARB/IABBABCFgICAACEBIABBARCFgICAACECIABBAhCFgICAACEDIABBAxCFgICAACEEIABBBBCFgICAACEFIABBBRCFgICAACEGIABBBhCFgICAACEHIABBBxCFgICAACEIIABBCBCFgICAACEJIABBCRCFgICAACEKIABBChCFgICAACELIABBCxCFgICAACEMIABBDBCFgICAACENIABBDRCFgICAACEOIABBDhCFgICAACEPIABBDxCFgICAACEQIABBEBCFgICAACAQIA8gDiANIAwgCyAKIAkgCCAHIAYgBSAEIAMgAiABampqampqampqampqampqagsnACAAQQA7AA0gAEEAOgAMIABB8JMJNgIIIABCADcDACAAQQA6AA8LTwECfwJAAkAgAC0ADA0AIAAoAgghAgwBCyAAQQAgACkDACABfSIBpyICIAFCAVMbIgM2AgggAw0AIABBADoADEEAIQILIAJB5wdqQegHbQtZAgF+AX8CQAJAIAAtAAxBAUcNACAAQQA6AAwgAEEAIAApAwAgAX0iAqcgAkIBUxsiAzYCCCADDQELIAAoAggiA0EBSA0AIABBAToADCAAIAEgA618NwMACwuzAQECf0EAIQIgAUEAQcEAEI2AgIAAGiABQZaShIAAQQcQjICAgAAaIAFBAjoAByABQQxqIABBMBCMgICAABogASAALQAwOgA8QcW78oh4IQMCQANAIAMgASACaiIALQAAc0GTg4AIbCEDIAJBPEYNASADIABBAWotAABzQZODgAhsIABBAmotAABzQZODgAhsIABBA2otAABzQZODgAhsIQMgAkEEaiECDAALCyABIAM2AD0LlQYBCX8jgICAgABB8ABrIgMkgICAgABBACEEAkACQCACQaMBRg0AIAJBwQBHDQELIAFBlpKEgABBBxCOgICAAA0AIAEtAAchBQJAAkAgAkGjAUcNACAFQf8BcUEBRw0CIAEtAAhBAk0NAQwCCyAFQf8BcUECRw0BIAEtAAgNAQsgAkEDcSEGIAEgAkF8aiIFaigAACEHAkACQAJAIAJBe2pBA08NAEHFu/KIeCEFQQAhCAwBCyAFQXxxIQlBxbvyiHghBUEAIQgDQCAFIAEgCGoiBC0AAHNBk4OACGwgBEEBai0AAHNBk4OACGwgBEECai0AAHNBk4OACGwgBEEDai0AAHNBk4OACGwhBSAJIAhBBGoiCEcNAAsgBkUNAQsgASAIaiEEA0AgBSAELQAAc0GTg4AIbCEFIARBAWohBCAGQX9qIgYNAAsLQQAhBCAHIAVHDQBBACEKIANBOGpBAEExEI2AgIAAGiADQThqQQBBMRCNgICAABogA0EBOgBAIANBgQw7ADhBDCEHIAJBowFHIQsCQANAIAEgB2ohCUGwkoSAACEEQQAhBQNAIAkgBWoiAi0AACIGIARBdGotAABLDQIgA0EHaiAFaiIIIAY6AAAgAkEBai0AACICIAQtAABLDQICQCAFQR5HDQAgAkEBRg0DCyAIQQFqIAI6AAAgBEEYaiEEIAVBAmoiBUEwRw0ACyADLQAhIAMtACBLDQEgCSAFai0AACIEQQFLDQEgAyAEOgA3AkACQCALDQAgCiABLQAIRw0BCyADIAMtADc6AGggAyADKQAvNwNgIAMgAykAJzcDWCADIAMpAB83A1AgAyADKQAXNwNIIAMgAykADzcDQCADIAMpAAc3AzgLAkAgCw0AIAcgBWpBAWohByAKQQFLIQUgCkEBaiEKIAVFDQELCyAAIAMtAGg6ADAgACADKQNgNwAoIAAgAykDWDcAICAAIAMpA1A3ABggACADKQNINwAQIAAgAykDQDcACCAAIAMpAzg3AABBASEEDAELQQAhBAsgA0HwAGokgICAgAAgBAu4AQEEfwJAIAJFDQAgAkEDcSEDQQAhBAJAIAJBBEkNACACQXxxIQVBACEEA0AgACAEaiICIAEgBGoiBi0AADoAACACQQFqIAZBAWotAAA6AAAgAkECaiAGQQJqLQAAOgAAIAJBA2ogBkEDai0AADoAACAFIARBBGoiBEcNAAsgA0UNAQsgASAEaiECIAAgBGohBANAIAQgAi0AADoAACACQQFqIQIgBEEBaiEEIANBf2oiAw0ACwsgAAu1AQEDfwJAIAJFDQAgAkEHcSEDQQAhBAJAIAJBCEkNACACQXhxIQVBACEEA0AgACAEaiICIAE6AAAgAkEHaiABOgAAIAJBBmogAToAACACQQVqIAE6AAAgAkEEaiABOgAAIAJBA2ogAToAACACQQJqIAE6AAAgAkEBaiABOgAAIAUgBEEIaiIERw0ACyADRQ0BCyAAIARqIQIDQCACIAE6AAAgAkEBaiECIANBf2oiAw0ACwsgAAtKAQN/QQAhAwJAIAJFDQACQANAIAAtAAAiBCABLQAAIgVHDQEgAEEBaiEAIAFBAWohASACQX9qIgJFDQIMAAsLIAQgBWshAwsgAwsOAEHgmISAABCCgICAAAsfAQF/QX8hAQJAIABBL0sNACAALQDgmISAACEBCyABCxIAQeCYhIAAIAAgARCDgICAAAsOAEHgmISAABCGgICAAAsQAEHgmISAACAAEIWAgIAACwsAQQAtAJCZhIAACw0AQQBBAToAkJmEgAALDgBB4JiEgAAQgYCAgAALGgBB4JiEgABBoJmEgAAQioCAgABBoJmEgAALBQBBwQALBQBBowELKwEBf0EAIQECQCAAQaMBSw0AQeCYhIAAQaCZhIAAIAAQi4CAgAAhAQsgAQsL5BgBAEGAgAQL2xjljZXljLrlhoXkuJTpq5jluqblkIjmoLwATTA1IOW7tuS8uOagueezuwDnn7/ljLp85Z+O5biCfOWGnOWcugDljp/kvY3kuJTlhajnqIvmnKrlrozlhajnprvljLoA5Zyw5Zu+57+76L2s5LiU5qCH6K6w5YWl5Yy6AOeglOeptuW5s+WPsOW3suWNh+i1twDnrZHlt6Lpobbmo5rlt7LljYfotbcA5YWz6ZSu54mp56eN5bCx5L2N5LiU5qCR5Y2H6LW3AOaXp+iusOW9leWFvOWuueWtl+autQDomoLomoHmjqXop6blt6LnqbQATTAzIOe/u+WKqOWyqeefswDnm7jmnLrpmbfpmLHlt7Lpg6jnvbIA5pSv5pKR5bim546v57uV56uL5p+xAOWJqeS9meeyvuWHhuagh+iusABNMTAg6ISG5byx5qCW5oGv5ZywAOieveaWr+S7jemDqOWIhuWcqOagluaBr+WcsADkuI7lr7nmlrnmoLnns7vov57mjqXmlbAATTA5IOeglOeptuW5s+WPsADlkKZ85pivAOWyqeefs+WbnuWIsOi1t+Wni+S9jee9rgDol6TolJPmjqXop6blnLrlnLDlnqsA5peg5Lq65py656a75byA5Zy65Zyw5Z6rAOagueezu+ebluadv+iQveS4i+inpuWeqwDloIbogqXoiLHpl6jlhajlvIDop6blnqsA56eN5a2Q6ISx56a75qCR5pyoAOaUr+aSkeadhuWNh+i1t+aOpeinpuagkeacqADmnKrkvLjlsZV86YOo5YiGfOWujOWFqADlu7rnrZHmiYDlnKjlupXluqcA6LWb5YmN5qOA5p+lAOiKseWbreWkqeeql+WujOWFqOaOqOWFpQBNMTEg6L+H5Y675LmL56qXAOiPjOS4neWujOWFqOS8uOWxlQBNMDgg6Kej5byA6Jek6JSTAE0xNSDnlJ/mgIHlu7rnrZEA5YW25Lit5o6l6Kem5Zy65Zyw5Z6r55qE56eN5a2QAOiEseemu+iMjuenhueahOenjeWtkADnp43mpI3nq5nlhoXnmoTnp43lrZAATTAyIOeIhuijguenjeWtkADonJjom5vmoJbmga/lnLDkv53mjIHljp/kvY0A6JyX54mb5qCW5oGv5Zyw5L+d5oyB5Y6f5L2NAE0xMyDlhbPplK7niannp40ATTE0IOabtOaWsOS5i+enjQBNMDcg5beo5aSn55yf6I+MAOeglOeptuaXl+W3suiQveS4iwBNMDEg5peg5Lq65py65YuY5rWLAE0wOSDmnKzpobnliKTlrprml6DmlYgATTA4IOacrOmhueWIpOWumuaXoOaViABNMDcg5pys6aG55Yik5a6a5peg5pWIAE0wNiDmnKzpobnliKTlrprml6DmlYgATTE1IOacrOmhueWIpOWumuaXoOaViABNMDUg5pys6aG55Yik5a6a5peg5pWIAE0xNCDmnKzpobnliKTlrprml6DmlYgATTA0IOacrOmhueWIpOWumuaXoOaViABNMTMg5pys6aG55Yik5a6a5peg5pWIAE0wMyDmnKzpobnliKTlrprml6DmlYgATTEyIOacrOmhueWIpOWumuaXoOaViABNMDIg5pys6aG55Yik5a6a5peg5pWIAE0xMSDmnKzpobnliKTlrprml6DmlYgATTAxIOacrOmhueWIpOWumuaXoOaViABNMTAg6JyY6Jub5Yik5a6a5peg5pWIAE0xMCDonJfniZvliKTlrprml6DmlYgATTA0IOW5uOi/kOWPtueJhwDohLHnprvlt6LnqbTnmoTlj7bniYcA5bei56m05YaF55qE5Y+254mH56KO54mHAE0xMiDmo67mnpfplb/ogIUA5YWo6YOo6K6+5aSH5pS+5YWl5LiA5Liq5Y+R5bCE5Yy677yM6auY5bqm5LiN6LaF6L+HMzA15q+r57Gz44CCAOiPjOS4neWujOWFqOS8uOWxlTIw5YiG77yM5q+P5Liq5ZCI5qC86L+e5o6l5YqgMTDliIbvvJvml6Dlr7nmiYvkuI3orqHov57mjqXjgIIA6YOo5YiGMTDliIbvvIzlrozlhagyMOWIhu+8jOS4jeWPoOWKoOOAggDkuIDniYcxMOWIhu+8m+S4pOeJh+S4lOa7oei2s+ieveaWr+adoeS7tuWFsTMw5YiG44CC56a75Yy65ZCO6L+U5Zue5LuN5peg6ZmE5Yqg5YiG44CCAOmZhOWKoOWIhumcgOimgeaXoOS6uuacuuWFiOW+l+WIhuOAggDnq5nlhoXmr4/popc15YiG77yM5YW25Lit6Kem5Z6r5q+P6aKX5YaN5YqgNeWIhuOAggDmjInliankvZnmlbDph4/orqHliIbvvIzkupTmnprkuI7lha3mnprlnYfkuLo1MOWIhuOAggDoh6rlu7rlhbPplK7niannp43kvY3kuo7mgaLlpI3lubPlj7DkuJTlubzmoJHljYfotbflvpczMOWIhuOAggDol6TolJPmjqXop6blnLrlnLDlnqvlvpczMOWIhuOAggDmoLnns7vnm5bmnb/okL3kuIvlubbmjqXop6blnLrlnLDlnqvlvpcyMOWIhuOAggDmlK/mkpHmnYYyMOWIhu+8jOaUr+aSkeW4pjEw5YiG44CCAOS4ieS4quWKqOS9nOWQhDEw5YiG77yb5bqV5bqn5a+55bqU5Yqo5L2c5YaN5YqgMTDliIbjgIIA56CU56m25peX6JC95LiL5ZCO77yM5bKp55+z5aSN5L2N5YaN5YqgMTDliIbjgIIA5q+P6aKX6ISx56a76IyO56eG55qE56eN5a2QMTDliIbjgIIA6JqC6JqB6Kem5bei5omN6K6h56KO54mH5YiG77yM5q+P54mHMTDliIbjgIIA5bmz5Y+w44CB55u45py644CB56eN5a2Q5ZCEMTDliIbjgIIA6JyY6Jub5LiO6JyX54mb5qCW5oGv5Zyw5ZCE6Ieq5L+d5oyB5Y6f5L2N77yM5ZCEMTDliIbjgIIATTA2IOWIh+WPtuiagQDmoLnns7vkvLjlsZXnirbmgIEARkxMMjdCRwAAAAAAAQABAAAAmAEBACsBAQAGAAAAAAAAAM8BAQABAAAAmAEBAF4AAQABAAAAmAEBAP8CAQADAAAAAAAAAKcDAQABAAAAmAEBAKABAQABAAAAmAEBAE8FAQACAAAAAAAAAFIBAQABAAAAmAEBAD8AAQABAAAAmAEBAAMJAQACAAAASQIBANsAAQABAAAAmAEBAGUFAQAEAAAAAAAAAKsCAQABAAAAmAEBAG4BAQACAAAAAAAAALkBAQABAAAAmAEBAHoAAQABAAAAmAEBAP8AAQABAAAAmAEBABoCAQABAAAAmAEBADwDAQABAAAAmAEBAFgDAQABAAAAmAEBAOgBAQABAAAAmAEBAC0CAQABAAAAmAEBABUBAQABAAAAmAEBAKYAAQABAAAAmAEBABUDAQAEAAAAAAAAAOACAQAEAAAAAAAAAJAAAQABAAAAmAEBAIECAQABAAAAmAEBAAECAQABAAAAmAEBAGECAQACAAAAKgABAMUAAQAEAAAAAAAAAPkEAQABAAAAmAEBAMsEAQABAAAAmAEBAJ0EAQABAAAAmAEBAG8EAQABAAAAmAEBAEEEAQABAAAAmAEBABMEAQABAAAAmAEBAPwDAQABAAAAmAEBAOUDAQABAAAAmAEBAM4DAQABAAAAmAEBABAFAQABAAAAmAEBACcFAQABAAAAmAEBAOIEAQABAAAAmAEBALQEAQABAAAAmAEBAIYEAQABAAAAmAEBAFgEAQABAAAAmAEBACoEAQABAAAAmAEBAHQCAQCPBQEAAAEAADEBAQD2BgEAAQEAALoDAQCeBgEAAgIAACsDAQBHCAEABAEAAO4AAQAXCAEABQIAAD4FAQBIBgEABwMAABkAAQAfBgEACgEAAPUIAQBrCAEACwIAAJYDAQDPBQEADQIAAL4CAQBrBwEADwEAAIcBAQCYCAEAEAMAAD4BAQC8CAEAEwIAAJoCAQCMBwEAFQEAAH4FAQC8BwEAFgIAAHQDAQAsBwEAGAEAAIUDAQDDBgEAGQIAAM8CAQDfBwEAGwQAAAAAAAAAAAAACgAAAA8AAAAZAAAAIwAAADIAAAAyAAAAICEiIyQlJicoKSssLS4vAP4CBG5hbWUACwpzY29yZS53YXNtAckCGwARX193YXNtX2NhbGxfY3RvcnMBD2ZsbF9jbGVhcl9yb3VuZAIIZmxsX2luaXQDB2ZsbF9zZXQECWZsbF9jeWNsZQUJZmxsX3Njb3JlBglmbGxfdG90YWwHD2ZsbF90aW1lcl9yZXNldAgRZmxsX3RpbWVyX3NlY29uZHMJEGZsbF90aW1lcl90b2dnbGUKCmZsbF9lbmNvZGULCmZsbF9kZWNvZGUMBm1lbWNweQ0GbWVtc2V0DgZtZW1jbXAPCXJlc2V0X2FsbBAJdmFsdWVfZ2V0EQl2YWx1ZV9zZXQSCXRvdGFsX2dldBMJc2NvcmVfZ2V0FAlzdWJtaXR0ZWQVBnN1Ym1pdBYLY2xlYXJfcm91bmQXCnJlY29yZF9nZXQYC3JlY29yZF9zaXplGQ9yZWNvcmRfY2FwYWNpdHkaB3Jlc3RvcmUHEgEAD19fc3RhY2tfcG9pbnRlcgkKAQAHLnJvZGF0YQB6CXByb2R1Y2VycwEMcHJvY2Vzc2VkLWJ5AQVjbGFuZ1oyMi4xLjAgKGh0dHBzOi8vY29kZWJlcmcub3JnL1lvV0FTUC9sbHZtLXByb2plY3QgOTU2MGFlMGYyY2M0NDBlNGZjODkxZmRkYmMxMTlkYTZmNTZkYWE1OSkAlAEPdGFyZ2V0X2ZlYXR1cmVzCCsLYnVsay1tZW1vcnkrD2J1bGstbWVtb3J5LW9wdCsWY2FsbC1pbmRpcmVjdC1vdmVybG9uZysKbXVsdGl2YWx1ZSsPbXV0YWJsZS1nbG9iYWxzKxNub250cmFwcGluZy1mcHRvaW50Kw9yZWZlcmVuY2UtdHlwZXMrCHNpZ24tZXh0';
+let engine,filter='all',remaining=150000,deadline=0,running=false,acceptAction;
+let port=null,reader=null,readTask=null,pollTimer=null,connecting=false,disconnecting=false,cloudViewing=false;
+let serialBuffer='',droppingLine=false,lastFrame=0,history=[],seen=[],historyAvailable=true;
+const DAY=86400000,HISTORY_KEY='fll27-history-v1',SEEN_KEY='fll27-seen-v1';
+const $=id=>document.getElementById(id),voidFields=[32,33,34,35,36,37,38,39,40,41,43,44,45,46,47];
+const record=()=>Array.from(new Uint8Array(engine.memory.buffer,engine.record_get(),engine.record_size()));
+function loadRecord(data){
+ if(!Array.isArray(data)||(data.length!==engine.record_size()&&data.length!==engine.record_capacity())||data.some(x=>!Number.isInteger(x)||x<0||x>255))throw Error('备份格式错误');
+ new Uint8Array(engine.memory.buffer,engine.record_get(),data.length).set(data);
+ if(!engine.restore(data.length))throw Error('成绩校验失败或版本不兼容');
+}
+function inspectRecord(data){const previous=record();try{loadRecord(data);return {total:engine.total_get(),scores:schema.missions.map((_,i)=>engine.score_get(i)),saved:!!engine.submitted()}}finally{loadRecord(previous)}}
+function writeStorage(){try{localStorage.setItem('fll27-single-v2',JSON.stringify(record()));$('storage').textContent='草稿已保存到本浏览器'}catch(e){$('storage').textContent='草稿保存失败：请导出备份，勿关闭页面'}}
+let historyReadable=true;
+function saveHistory(){if(!historyReadable){$('history-status').textContent='原历史损坏，保留原始存储；新增记录仅临时保留，请导出 CSV';return}try{localStorage.setItem(HISTORY_KEY,JSON.stringify(history));localStorage.setItem(SEEN_KEY,JSON.stringify(seen));historyAvailable=true;$('history-status').textContent='已保存到本浏览器'}catch(e){historyAvailable=false;$('history-status').textContent='历史保存失败：当前仅临时保留，请立即导出 CSV'}}
+function pruneHistory(){const now=Date.now();history=history.filter(x=>x.time>now-7*DAY&&x.time<=now);}
+function renderHistory(){
+ pruneHistory();const average=history.length?history.reduce((a,x)=>a+x.total,0)/history.length:0;
+ $('history-summary').textContent=`${history.length} 条已确认成绩 · 平均分 ${history.length?average.toFixed(2):'—'}`;
+ $('history').replaceChildren();for(const x of [...history].reverse()){const tr=document.createElement('tr');for(const text of [new Date(x.time).toLocaleString('zh-CN'),x.source==='device'?'主机':'网页',String(x.total)]){const td=document.createElement('td');td.textContent=text;tr.append(td)}$('history').append(tr)}
+}
+function archiveResult(id,data,source){
+ if(seen.includes(id))return false;
+ const info=inspectRecord(data);if(!info.saved)throw Error('未确认的成绩不能存入历史');
+ history.push({id,time:Date.now(),source,record:data,total:info.total});seen.push(id);seen=seen.slice(-8192);
+ pruneHistory();saveHistory();renderHistory();return true;
+}
+function loadHistory(){
+ try{const parsed=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');const ids=JSON.parse(localStorage.getItem(SEEN_KEY)||'[]');
+  if(!Array.isArray(parsed)||!Array.isArray(ids)||parsed.length>10000||ids.length>8192)throw Error('历史格式错误');
+  seen=ids.filter(x=>typeof x==='string'&&x.length<100);
+  for(const x of parsed){if(!x||typeof x.id!=='string'||x.id.length>=100||!Number.isFinite(x.time)||!['device','web'].includes(x.source))continue;try{const info=inspectRecord(x.record);if(info.saved&&!history.some(h=>h.id===x.id)){history.push({...x,total:info.total});if(!seen.includes(x.id))seen.push(x.id)}}catch(e){/* Discard only the corrupt entry. */}}
+  renderHistory();saveHistory();
+ }catch(e){history=[];seen=[];historyReadable=false;$('history-status').textContent='历史读取失败，未覆盖原始存储；请先备份浏览器数据';renderHistory()}
+}
+function confirmAction(title,text,action){$('dialogtitle').textContent=title;$('dialogtext').textContent=text;acceptAction=action;$('dialog').showModal();$('cancel').focus()}
+function download(name,type,text){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([text],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function downloadCSV(name,rows){download(name,'text/csv;charset=utf-8','\uFEFF'+rows.map(row=>row.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(',')).join('\r\n'))}
+const missionMaximum=[30,30,30,30,20,40,40,30,30,20,20,30,30,40,40];
+const fieldButtonText={2:'20',3:'10',5:'20',6:'10',8:'在区',9:'原位',11:'触巢',13:'20',15:'30',16:'10',17:'10',18:'10',19:'10',20:'10',21:'20',22:'20',23:'10',24:'30',27:'10',28:'10',29:'10'};
+const unitPoints={4:'10',7:'片',12:'10',14:'10',25:'5',26:'5'};
+function setField(field,value){if(port||cloudViewing)return;engine.value_set(field,value);writeStorage();refresh()}
+function makeField(field){
+ const desc=schema.fields[field],value=engine.value_get(field),div=document.createElement('div');div.className='mission-field';
+ const caption=document.createElement('div');caption.className='field-caption';caption.id='caption-'+field;caption.textContent=desc.label;
+ const buttons=document.createElement('div');buttons.className='score-buttons';buttons.setAttribute('role','group');buttons.setAttribute('aria-labelledby',caption.id);
+ function add(n,text,selected,action,label){const button=document.createElement('button');button.type='button';button.className='score-btn'+(selected?' selected':'')+(String(text).length>2?' choice-btn':'');button.id=`f${field}-${n}`;button.dataset.field=field;button.dataset.value=n;button.textContent=text;button.title=label;button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(selected));button.disabled=!!port||cloudViewing;button.onclick=action;buttons.append(button)}
+ if(desc.max===1)add(1,fieldButtonText[field]||'是',!!value,()=>setField(field,value?0:1),desc.label+'：'+(value?'已选，再点取消':'未选，点击选择'));
+ else if(field===10||field===30){for(let n=0;n<=desc.max;n++)add(n,field===10?String(n*10):['矿','城','农'][n],value===n,()=>setField(field,n),desc.label+'：'+desc.choices[n])}
+ else for(let n=1;n<=desc.max;n++)add(n,field===7?String(n)+'片':unitPoints[field],value>=n,()=>setField(field,value===n?n-1:n),desc.label+'：设为'+n+'个，再点已选末项减少');
+ div.append(caption,buttons);return div;
+}
+function refresh(){
+ const inspection=engine.score_get(0),precision=engine.score_get(1),locked=!!port||cloudViewing;
+ $('total').textContent=engine.total_get();$('missionScore').textContent=engine.total_get()-inspection-precision;$('inspectScore').textContent=inspection;$('bonusScore').textContent=precision;
+ $('scorestate').textContent=`单轮计分 · ${engine.submitted()?'已确认':'草稿'}${locked?' · 主机同步':''}`;
+ $('submit').disabled=locked;$('clear').disabled=locked;$('import').disabled=locked;
+ $('f0').checked=!!engine.value_get(0);$('f0').disabled=locked;$('f0').onchange=()=>setField(0,$('f0').checked?1:0);
+ const focusId=document.activeElement?.id;$('cards').replaceChildren();
+ schema.missions.slice(2).forEach((m,j)=>{const i=j+2,score=engine.score_get(i),card=document.createElement('section');card.className='mission-card';
+  const head=document.createElement('div');head.className='mission-header';const id=document.createElement('span');id.className='mission-id';id.textContent='任务 '+String(j+1).padStart(2,'0');const max=document.createElement('span');max.className='mission-max';max.textContent='最高 '+missionMaximum[j]+' 分';head.append(id,max);
+  const title=document.createElement('div');title.className='mission-name';title.style.fontWeight='600';title.textContent=m.name.replace(/^M\d+ /,'');const hint=document.createElement('p');hint.className='mission-rules';hint.textContent=m.hint;card.append(head,title,hint);
+  for(let f=m.first;f<m.first+m.count;f++)card.append(makeField(f));
+  const referee=document.createElement('details');const summary=document.createElement('summary');summary.textContent='裁判无效判定';summary.className='tiny';referee.append(summary);
+  for(const f of i===11?[41,42]:[voidFields[i-2]]){const label=document.createElement('label');label.className='void';const input=document.createElement('input');input.type='checkbox';input.checked=!!engine.value_get(f);input.disabled=locked;input.onchange=()=>setField(f,input.checked?1:0);label.append(input,document.createTextNode(schema.fields[f].label));referee.append(label)}
+  const points=document.createElement('div');points.className='current-score';points.textContent=score+' 分';card.append(referee,points);$('cards').append(card)
+ });
+ $('precision-options').replaceChildren();for(const [n,points] of [[6,50],[4,35],[3,25],[2,15],[1,10],[0,0]]){const div=document.createElement('div');div.className='bonus-option';const input=document.createElement('input');input.type='radio';input.name='accuracyBonus';input.id='bonus'+points;input.value=n;input.checked=n===6?engine.value_get(1)>=5:engine.value_get(1)===n;input.disabled=locked;input.onchange=()=>setField(1,n);const label=document.createElement('label');label.htmlFor=input.id;label.textContent=(n===6?'6/5':n)+'个（'+points+'分）';div.append(input,label);$('precision-options').append(div)}
+ if(focusId)$(focusId)?.focus();
+}
+function tick(){if(running){remaining=Math.max(0,deadline-performance.now());if(!remaining){running=false;$('clock').classList.add('timer-done');$('storage').textContent='时间到！请停止机器人。'}}const s=Math.ceil(remaining/1000);$('clock').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;$('start').disabled=running||!remaining;$('pause').disabled=!running}
+/* Line framing tolerates console logs, CRLF, chunks, damaged and oversized lines. */
+function acceptSerialLine(line){
+ if(line.length>512||!line.startsWith('{'))return;
+ try{const frame=JSON.parse(line);if(frame.type!=='fll27'||!['live','result'].includes(frame.kind)||typeof frame.id!=='string'||!/^[a-zA-Z0-9-]{1,40}$/.test(frame.id)||typeof frame.record!=='string'||!new RegExp('^[0-9a-f]{'+engine.record_size()*2+'}$').test(frame.record))return;
+  const data=frame.record.match(/../g).map(x=>parseInt(x,16));const info=inspectRecord(data);
+  if(frame.kind==='result')archiveResult('device-'+frame.id,data,'device');
+  else {loadRecord(data);refresh();lastFrame=Date.now();$('connection').textContent='已连接 · 成绩已同步 · '+new Date(lastFrame).toLocaleTimeString('zh-CN')}
+  return info;
+ }catch(e){$('connection').textContent='收到无效成绩，等待主机重发';}
+}
+function feedSerial(text){for(const c of text){if(c==='\n'){if(!droppingLine)acceptSerialLine(serialBuffer.replace(/\r$/,''));serialBuffer='';droppingLine=false}else if(!droppingLine){if(serialBuffer.length<512)serialBuffer+=c;else{serialBuffer='';droppingLine=true}}}}
+async function requestSnapshot(){const current=port;if(!current?.writable||current.writable.locked)return;const writer=current.writable.getWriter();try{await writer.write(new TextEncoder().encode('FLL27 GET\n'))}finally{writer.releaseLock()}}
+async function connectDevice(){
+ if(port||connecting)return;
+ if(!navigator.serial){$('connection').textContent='此浏览器不支持主机连接，请使用电脑 Chrome / Edge，通过 HTTPS 或 localhost 打开网页。';return}
+ connecting=true;$('connect').disabled=true;
+ try{const selected=await navigator.serial.requestPort();await selected.open({baudRate:115200});cloudViewing=false;port=selected;lastFrame=0;serialBuffer='';droppingLine=false;$('disconnect').disabled=false;refresh();$('connection').textContent='串口已打开，等待主机成绩…';
+  readTask=(async()=>{const decoder=new TextDecoder();try{reader=selected.readable.getReader();while(true){const {value,done}=await reader.read();if(done)break;if(value)feedSerial(decoder.decode(value,{stream:true}))}}catch(e){if(!disconnecting)$('connection').textContent='连接已中断：'+e.message}finally{reader?.releaseLock();reader=null;if(!disconnecting)await cleanupPort(selected)}})();
+  await requestSnapshot();pollTimer=setInterval(()=>{requestSnapshot().catch(e=>{$('connection').textContent='读取失败，请断开后重连：'+e.message});if(!lastFrame||Date.now()-lastFrame>5000)$('connection').textContent='等待主机响应：确认已刷入配套固件，关闭占用串口的软件。'},1000);
+ }catch(e){$('connection').textContent=e.name==='NotFoundError'?'已取消连接':'连接失败：'+e.message;if(port)await disconnectDevice()}
+ finally{connecting=false;$('connect').disabled=!!port}
+}
+async function cleanupPort(selected){clearInterval(pollTimer);pollTimer=null;try{await selected.close()}catch(e){/* Port may already be physically removed. */}if(port===selected)port=null;$('connect').disabled=false;$('disconnect').disabled=true;refresh()}
+async function disconnectDevice(){if(!port)return;disconnecting=true;const selected=port;clearInterval(pollTimer);try{await reader?.cancel();await readTask;await cleanupPort(selected)}finally{disconnecting=false;$('connection').textContent='已断开 · 当前成绩可导出，亦可独立计分'}}
+async function boot(){
+ const bytes=Uint8Array.from(atob(wasm),c=>c.charCodeAt(0));engine=(await WebAssembly.instantiate(bytes,{})).instance.exports;engine.reset_all();
+ try{const saved=localStorage.getItem('fll27-single-v2')??localStorage.getItem('fll27-book-v1');if(saved)loadRecord(JSON.parse(saved));$('storage').textContent=saved?'已恢复网页草稿；主机每次开机仍从 70 分开始':'就绪，修改后自动保存'}catch(e){$('storage').textContent='草稿读取失败：已载入新计分表'}
+ loadHistory();refresh();startCloud();
+ $('submit').onclick=()=>{if(port||cloudViewing)return;confirmAction('确认成绩并记录',`将 ${engine.total_get()} 分加入最近 7 天成绩。相同已确认成绩不会重复记入。`,()=>{if(engine.submitted())return;engine.submit();archiveResult('web-'+Date.now()+'-'+Math.random().toString(36).slice(2),record(),'web');writeStorage();refresh()})};
+ $('clear').onclick=()=>{if(port||cloudViewing)return;confirmAction('新计分表','恢复初始 70 分（检查区 20 + 精准度 50），保留 7 天历史。',()=>{engine.clear_round();writeStorage();refresh()})};
+ $('export').onclick=()=>download('BIOGLOW-2027-backup.json','application/json',JSON.stringify({app:'FLL27-BIOGLOW',version:2,record:record()},null,2));
+ $('import').onclick=()=>{if(!port&&!cloudViewing)$('file').click()};$('file').onchange=async()=>{const file=$('file').files[0];if(!file||port||cloudViewing)return;try{if(file.size>10000)throw Error('文件过大');const data=JSON.parse(await file.text());if(data.app!=='FLL27-BIOGLOW'||![1,2].includes(data.version))throw Error('应用或版本不匹配');inspectRecord(data.record);confirmAction('替换当前计分表','导入仅替换当前计分表，历史保留。',()=>{if(port||cloudViewing)return;try{loadRecord(data.record);writeStorage();refresh()}catch(e){$('storage').textContent=e.message}})}catch(e){$('storage').textContent='导入失败：'+e.message}$('file').value=''};
+ $('csv').onclick=()=>{const rows=[['赛季','项目','分数','状态']],state=engine.submitted()?'已确认':'草稿';for(let m=0;m<17;m++)rows.push(['2026-27 BIOGLOW',schema.missions[m].name,engine.score_get(m),state]);rows.push(['2026-27 BIOGLOW','总分',engine.total_get(),state]);for(let f=0;f<48;f++)if(f!==31)rows.push(['2026-27 BIOGLOW','明细：'+schema.fields[f].label,engine.value_get(f),'']);downloadCSV('BIOGLOW-2027-current.csv',rows)};
+ $('history-export').onclick=()=>{renderHistory();saveHistory();const rows=[['记录时间','来源',...schema.missions.map(m=>m.name),'总分']];for(const x of history){const info=inspectRecord(x.record);rows.push([new Date(x.time).toISOString(),x.source==='device'?'主机':'网页',...info.scores,x.total])}const averages=schema.missions.map((_,i)=>history.length?(history.reduce((sum,x)=>sum+inspectRecord(x.record).scores[i],0)/history.length).toFixed(2):'');rows.push(['最近7天平均分',history.length+'条',...averages,history.length?(history.reduce((sum,x)=>sum+x.total,0)/history.length).toFixed(2):'']);downloadCSV('BIOGLOW-2027-7days.csv',rows)};
+ $('connect').onclick=connectDevice;$('disconnect').onclick=()=>disconnectDevice().catch(e=>{$('connection').textContent='断开失败：'+e.message});
+ document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(c=>c.classList.toggle('active',c===b));refresh()});
+ $('start').onclick=()=>{if(!running&&remaining){deadline=performance.now()+remaining;running=true}tick()};$('pause').onclick=()=>{tick();running=false;tick()};$('timerreset').onclick=()=>{running=false;remaining=150000;$('clock').classList.remove('timer-done');tick()};setInterval(tick,100);setInterval(()=>{pruneHistory();saveHistory();renderHistory()},60000);
+}
+ $('cancel').onclick=()=>$('dialog').close();$('accept').onclick=()=>{$('dialog').close();acceptAction?.()};
+ boot().catch(e=>{$('scorestate').textContent='计分引擎加载失败';$('storage').textContent=e.message;document.querySelectorAll('button').forEach(b=>b.disabled=true)});
+
+/* The same page remains an offline scorecard when opened as a local file. */
+let cloudBusy=false,cloudReady=false,cloudDevices=[];
+async function cloudRequest(path,options={}){
+ const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...options.headers},cache:'no-store',signal:AbortSignal.timeout(12000)});
+ if(!response.ok)throw Error(response.status===401?'请登录网站后重试':`云端请求失败 (${response.status})`);
+ return response.json();
+}
+async function syncCloud(){
+ if(cloudBusy||!engine||!cloudReady)return;cloudBusy=true;
+ try{
+  for(const item of history.filter(x=>x.source==='web'&&!x.cloudSynced)){
+   await cloudRequest('/api/cloud',{method:'POST',body:JSON.stringify({id:item.id,record:item.record})});item.cloudSynced=true;
+  }
+  const data=await cloudRequest('/api/cloud');cloudDevices=data.devices;
+  const select=$('cloud-device'),selected=select.value;select.replaceChildren();
+  for(const device of cloudDevices){const option=document.createElement('option');option.value=device.id;option.textContent=device.id.slice(-6)+(Date.now()-device.last_seen<20000?' · 在线':' · 离线');select.append(option)}
+  if(cloudDevices.some(x=>x.id===selected))select.value=selected;
+  for(const item of data.history){inspectRecord(item.record);const old=history.find(x=>x.id===item.id);if(old){old.cloudSynced=true;old.time=item.time}else{history.push({...item,cloudSynced:true});if(!seen.includes(item.id))seen.push(item.id)}}
+  // Expired cloud items must not be resurrected by local re-upload.
+  pruneHistory();saveHistory();renderHistory();
+  if(cloudViewing){const device=cloudDevices.find(x=>x.id===select.value);if(device?.live){loadRecord(device.live);refresh();$('connection').textContent=(Date.now()-device.last_seen<20000?'主机在线 · ':'主机离线 · 显示最后上传成绩 · ')+new Date(device.last_seen).toLocaleString('zh-CN')}else $('connection').textContent='等待主机首次上传；主机需完成配网和绑定'}
+  $('cloud-status').textContent='云端已同步 · '+new Date().toLocaleTimeString('zh-CN');
+ }catch(e){$('cloud-status').textContent=e.message+'；本地计分和导出仍可使用'}finally{cloudBusy=false}
+}
+function startCloud(){
+ if(typeof fetch!=='function'||!['https:','http:'].includes(location.protocol)||!(location.hostname.endsWith('.chatgpt.site')||location.hostname==='127.0.0.1'))return;
+ cloudReady=true;$('cloud-controls').hidden=false;
+ $('cloud-view').onclick=async()=>{if(port)await disconnectDevice();if(!cloudViewing)writeStorage();cloudViewing=true;refresh();await syncCloud()};
+ $('web-mode').onclick=()=>{cloudViewing=false;try{const local=localStorage.getItem('fll27-single-v2');if(local)loadRecord(JSON.parse(local));else engine.reset_all()}catch{engine.reset_all()}refresh();$('connection').textContent='网页独立计分 · 确认后自动保存至云端'};
+ $('bind-device').onclick=async()=>{try{const config=await cloudRequest('/api/bind',{method:'POST',body:'{}'});$('binding-code').value=JSON.stringify(config);$('binding-help').hidden=false;$('cloud-status').textContent='配置已生成，仅用于你自己的主机；请勿分享'}catch(e){$('cloud-status').textContent=e.message}};
+ $('revoke-device').onclick=async()=>{const id=$('cloud-device').value;if(!id)return;confirmAction('解除主机绑定','该主机将停止上传，已有成绩保留至到期。',async()=>{try{await cloudRequest('/api/bind?id='+encodeURIComponent(id),{method:'DELETE'});await syncCloud()}catch(e){$('cloud-status').textContent=e.message}})};
+ $('cloud-device').onchange=()=>syncCloud();setInterval(syncCloud,3000);syncCloud();
+}
+</script></body></html>
